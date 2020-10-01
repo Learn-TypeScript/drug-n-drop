@@ -3,6 +3,9 @@ class ProjectInput {
   templateElement: HTMLTemplateElement;
   hostElement: HTMLDivElement;
   element: HTMLFormElement;
+  titleInputElement: HTMLInputElement;
+  discriptionInputElement: HTMLInputElement;
+  peopleInputElement: HTMLInputElement;
 
   constructor() {
     this.templateElement = document.getElementById(
@@ -22,11 +25,28 @@ class ProjectInput {
     );
     /* element is the concrete property that points the node we want to insert */
     this.element = importedNode.firstElementChild as HTMLFormElement;
+    // Add an id so the css style for "user-input" will be applied.
+    this.element.id = "user-input";
+    this.configure();
     this.attach();
+    // prettier-ignore
+    this.titleInputElement = this.element.querySelector('#title') as HTMLInputElement;
+    // prettier-ignore
+    this.discriptionInputElement = this.element.querySelector('#discription') as HTMLInputElement;
+    // prettier-ignore
+    this.peopleInputElement = this.element.querySelector('#people') as HTMLInputElement;
+  }
+
+  private sumbitHandler(event: Event) {
+    event.preventDefault();
+    console.log(this.titleInputElement.value);
+  }
+
+  private configure() {
+    this.element.addEventListener("submit", this.sumbitHandler.bind(this));
   }
 
   private attach() {
-    //
     this.hostElement.insertAdjacentElement("afterbegin", this.element);
   }
 }
