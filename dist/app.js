@@ -23,18 +23,36 @@ class ProjectInput {
         const importedNode = document.importNode(this.templateElement.content, true);
         this.element = importedNode.firstElementChild;
         this.element.id = "user-input";
+        this.titleInputElement = this.element.querySelector('#title');
+        this.descriptionInputElement = this.element.querySelector('#description');
+        this.peopleInputElement = this.element.querySelector('#people');
         this.configure();
         this.attach();
-        this.titleInputElement = this.element.querySelector('#title');
-        this.discriptionInputElement = this.element.querySelector('#discription');
-        this.peopleInputElement = this.element.querySelector('#people');
     }
-    sumbitHandler(event) {
+    gatherUserInput() {
+        const enteredTitle = this.titleInputElement.value;
+        const enteredDescription = this.descriptionInputElement.value;
+        const enteredPeople = this.peopleInputElement.value;
+        if (enteredTitle.trim().length === 0 ||
+            enteredDescription.trim().length === 0 ||
+            enteredPeople.trim().length === 0) {
+            alert("Invalid input, please try again!");
+            return;
+        }
+        else {
+            return [enteredTitle, enteredDescription, +enteredPeople];
+        }
+    }
+    submitHandler(event) {
         event.preventDefault();
-        console.log(this.titleInputElement.value);
+        const userInput = this.gatherUserInput();
+        if (Array.isArray(userInput)) {
+            const [title, desc, people] = userInput;
+            console.log(title, desc, people);
+        }
     }
     configure() {
-        this.element.addEventListener("submit", this.sumbitHandler.bind(this));
+        this.element.addEventListener("submit", this.submitHandler);
     }
     attach() {
         this.hostElement.insertAdjacentElement("afterbegin", this.element);
@@ -42,6 +60,6 @@ class ProjectInput {
 }
 __decorate([
     autobind
-], ProjectInput.prototype, "sumbitHandler", null);
+], ProjectInput.prototype, "submitHandler", null);
 const prjInput = new ProjectInput();
 //# sourceMappingURL=app.js.map
