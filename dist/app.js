@@ -5,9 +5,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-function validateInput(target, _2, descriptor) {
-    console.log(target);
-    console.log(descriptor);
+function validateInput(input) {
+    let isValid = true;
+    isValid = isValid && input[0].length > 0;
+    isValid = isValid && input[1].length > 0;
+    isValid = isValid && +input[2] > 0;
+    console.log(isValid);
+    return isValid;
 }
 function autobind(_, _2, descriptor) {
     const originalMethod = descriptor.value;
@@ -37,9 +41,8 @@ class ProjectInput {
         const enteredTitle = this.titleInputElement.value;
         const enteredDescription = this.descriptionInputElement.value;
         const enteredPeople = this.peopleInputElement.value;
-        if (enteredTitle.trim().length === 0 ||
-            enteredDescription.trim().length === 0 ||
-            enteredPeople.trim().length === 0) {
+        console.log("validateInput", validateInput([enteredTitle, enteredDescription, +enteredPeople]));
+        if (!validateInput([enteredTitle, enteredDescription, +enteredPeople])) {
             alert("Invalid input, please try again!");
             return;
         }

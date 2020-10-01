@@ -1,17 +1,13 @@
 // Validate user input decorators
 // decorator
-function validateInput(target: any, _2: any, descriptor: PropertyDescriptor) {
-  console.log(target);
-  console.log(descriptor);
+function validateInput(input: [string, string, number]) {
+  let isValid = true;
+  isValid = isValid && input[0].length > 0;
+  isValid = isValid && input[1].length > 0;
+  isValid = isValid && +input[2] > 0;
+  console.log(isValid);
 
-  // let isValid = true;
-  // isValid = isValid && (input as string).length > 0;
-  // isValid = isValid && (input as string).length > 0;
-  // isValid = isValid && +input > 0;
-
-  // if (isValid) return isValid;
-  // alert("No valid input");
-  // return false;
+  return isValid;
 }
 
 // autobind decorator
@@ -72,12 +68,12 @@ class ProjectInput {
     const enteredTitle = this.titleInputElement.value;
     const enteredDescription = this.descriptionInputElement.value;
     const enteredPeople = this.peopleInputElement.value;
+    console.log(
+      "validateInput",
+      validateInput([enteredTitle, enteredDescription, +enteredPeople])
+    );
 
-    if (
-      enteredTitle.trim().length === 0 ||
-      enteredDescription.trim().length === 0 ||
-      enteredPeople.trim().length === 0
-    ) {
+    if (!validateInput([enteredTitle, enteredDescription, +enteredPeople])) {
       alert("Invalid input, please try again!");
       return;
     } else {
