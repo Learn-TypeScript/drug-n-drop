@@ -10,7 +10,6 @@ function validateInput(input) {
     isValid = isValid && input[0].length > 0;
     isValid = isValid && input[1].length > 0;
     isValid = isValid && +input[2] > 0;
-    console.log(isValid);
     return isValid;
 }
 function autobind(_, _2, descriptor) {
@@ -41,7 +40,6 @@ class ProjectInput {
         const enteredTitle = this.titleInputElement.value;
         const enteredDescription = this.descriptionInputElement.value;
         const enteredPeople = this.peopleInputElement.value;
-        console.log("validateInput", validateInput([enteredTitle, enteredDescription, +enteredPeople]));
         if (!validateInput([enteredTitle, enteredDescription, +enteredPeople])) {
             alert("Invalid input, please try again!");
             return;

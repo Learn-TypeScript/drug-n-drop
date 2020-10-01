@@ -1,12 +1,9 @@
-// Validate user input decorators
-// decorator
+// Validate user input
 function validateInput(input: [string, string, number]) {
   let isValid = true;
   isValid = isValid && input[0].length > 0;
   isValid = isValid && input[1].length > 0;
   isValid = isValid && +input[2] > 0;
-  console.log(isValid);
-
   return isValid;
 }
 
@@ -68,10 +65,6 @@ class ProjectInput {
     const enteredTitle = this.titleInputElement.value;
     const enteredDescription = this.descriptionInputElement.value;
     const enteredPeople = this.peopleInputElement.value;
-    console.log(
-      "validateInput",
-      validateInput([enteredTitle, enteredDescription, +enteredPeople])
-    );
 
     if (!validateInput([enteredTitle, enteredDescription, +enteredPeople])) {
       alert("Invalid input, please try again!");
