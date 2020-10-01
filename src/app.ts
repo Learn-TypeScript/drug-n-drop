@@ -51,10 +51,17 @@ class ProjectInput {
     this.peopleInputElement = this.element.querySelector('#people') as HTMLInputElement;
   }
 
+  private gatherUserInput(): [string, string, number] {
+    const enteredTitle = this.titleInputElement.value;
+    const enterdDiscription = this.discriptionInputElement.value;
+    const enteredPeople = this.peopleInputElement.value;
+  }
+
   @autobind
   private sumbitHandler(event: Event) {
     event.preventDefault();
     console.log(this.titleInputElement.value);
+    const userInput = this.gatherUserInput();
   }
 
   private configure() {
