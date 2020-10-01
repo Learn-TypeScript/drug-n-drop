@@ -1,3 +1,19 @@
+// Validate user input decorators
+// decorator
+function validateInput(target: any, _2: any, descriptor: PropertyDescriptor) {
+  console.log(target);
+  console.log(descriptor);
+
+  // let isValid = true;
+  // isValid = isValid && (input as string).length > 0;
+  // isValid = isValid && (input as string).length > 0;
+  // isValid = isValid && +input > 0;
+
+  // if (isValid) return isValid;
+  // alert("No valid input");
+  // return false;
+}
+
 // autobind decorator
 function autobind(_: any, _2: string, descriptor: PropertyDescriptor) {
   const originalMethod = descriptor.value;
@@ -20,6 +36,8 @@ class ProjectInput {
   titleInputElement: HTMLInputElement;
   discriptionInputElement: HTMLInputElement;
   peopleInputElement: HTMLInputElement;
+
+  // userInput: [string, string, number] = ["", "", 0];
 
   constructor() {
     this.templateElement = document.getElementById(
@@ -51,10 +69,13 @@ class ProjectInput {
     this.peopleInputElement = this.element.querySelector('#people') as HTMLInputElement;
   }
 
+  @validateInput
   private gatherUserInput(): [string, string, number] {
     const enteredTitle = this.titleInputElement.value;
     const enterdDiscription = this.discriptionInputElement.value;
     const enteredPeople = this.peopleInputElement.value;
+
+    return [enteredTitle, enterdDiscription, +enteredPeople];
   }
 
   @autobind
@@ -62,6 +83,7 @@ class ProjectInput {
     event.preventDefault();
     console.log(this.titleInputElement.value);
     const userInput = this.gatherUserInput();
+    console.log(userInput);
   }
 
   private configure() {
