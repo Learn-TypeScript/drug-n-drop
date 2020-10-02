@@ -44,13 +44,6 @@ class ProjectState {
         this.listeners = [];
         this.projects = [];
     }
-    static getInstance() {
-        if (this.instance) {
-            return this.instance;
-        }
-        this.instance = new ProjectState();
-        return this.instance;
-    }
     addListener(listenerFn) {
         this.listeners.push(listenerFn);
     }
@@ -67,7 +60,7 @@ class ProjectState {
         }
     }
 }
-const projectState = ProjectState.getInstance();
+const projectState = new ProjectState();
 class ProjectList {
     constructor(type) {
         this.type = type;

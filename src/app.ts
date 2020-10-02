@@ -58,17 +58,6 @@ function autobind(_: any, _2: string, descriptor: PropertyDescriptor) {
 class ProjectState {
   private listeners: any[] = [];
   private projects: any[] = [];
-  private static instance: ProjectState;
-
-  private constructor() {}
-
-  static getInstance() {
-    if (this.instance) {
-      return this.instance;
-    }
-    this.instance = new ProjectState();
-    return this.instance;
-  }
 
   addListener(listenerFn: Function) {
     this.listeners.push(listenerFn);
@@ -88,7 +77,7 @@ class ProjectState {
   }
 }
 
-const projectState = ProjectState.getInstance();
+const projectState = new ProjectState();
 
 // ProjectList Class
 class ProjectList {
