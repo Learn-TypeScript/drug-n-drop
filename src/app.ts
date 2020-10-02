@@ -84,7 +84,7 @@ class ProjectList {
   templateElement: HTMLTemplateElement;
   hostElement: HTMLDivElement;
   element: HTMLElement;
-  assingnedProjects: any[];
+  // assingnedProjects: any[];
 
   constructor(private type: "active" | "finished") {
     this.templateElement = document.getElementById(
@@ -92,7 +92,7 @@ class ProjectList {
     )! as HTMLTemplateElement;
     this.hostElement = document.getElementById("app")! as HTMLDivElement;
 
-    this.assingnedProjects = [];
+    // this.assingnedProjects = [];
 
     const importedNode = document.importNode(
       this.templateElement.content,
@@ -102,24 +102,32 @@ class ProjectList {
     this.element.id = `${this.type}-projects`;
 
     projectState.addListener((projects: any[]) => {
-      this.assingnedProjects = projects;
-      this.renderProjects();
+      // this.assingnedProjects = projects;
+      const listEl = document.getElementById(
+        `${this.type}-projects-list`
+      )! as HTMLUListElement;
+      for (const prjItem of projects) {
+        const listItem = document.createElement("li");
+        listItem.textContent = prjItem.title;
+        listEl.appendChild(listItem);
+      }
+      // this.renderProjects();
     });
 
     this.attach();
     this.renderContent();
   }
 
-  private renderProjects() {
-    const listEl = document.getElementById(
-      `${this.type}-projects-list`
-    )! as HTMLUListElement;
-    for (const prjItem of this.assingnedProjects) {
-      const listItem = document.createElement("li");
-      listItem.textContent = prjItem.title;
-      listEl.appendChild(listItem);
-    }
-  }
+  // private renderProjects() {
+  //   const listEl = document.getElementById(
+  //     `${this.type}-projects-list`
+  //   )! as HTMLUListElement;
+  //   for (const prjItem of this.assingnedProjects) {
+  //     const listItem = document.createElement("li");
+  //     listItem.textContent = prjItem.title;
+  //     listEl.appendChild(listItem);
+  //   }
+  // }
 
   private renderContent() {
     const listId = `${this.type}-projects-list`;
