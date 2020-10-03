@@ -132,8 +132,14 @@ class ProjectList {
     this.element = importedNode.firstElementChild as HTMLElement;
     this.element.id = `${this.type}-projects`;
 
-    projectState.addListener((projects: any[]) => {
-      this.assingnedProjects = projects;
+    projectState.addListener((projects: Project[]) => {
+      const relevantProjects = projects.filter(prj => {
+        if (this.type === "active") {
+          return prj.status === ProjectStatus.Active;
+        }
+        return prj.status === ProjectStatus.Finished;
+      });
+      this.assingnedProjects = relevantProjects;
       this.renderProjects();
     });
 
@@ -145,6 +151,7 @@ class ProjectList {
     const listEl = document.getElementById(
       `${this.type}-projects-list`
     )! as HTMLUListElement;
+    listEl.innerHTML = "";
     for (const prjItem of this.assingnedProjects) {
       const listItem = document.createElement("li");
       listItem.textContent = prjItem.title; // With Project Type, we get autocompletion here.
