@@ -52,12 +52,31 @@ function autobind(_: any, _2: string, descriptor: PropertyDescriptor) {
   };
   return adjDescriptor;
 }
+
+// enum type
+enum ProjectStatus {
+  Active,
+  Finished
+}
+
+// Project Type
+class Project {
+  constructor(
+    public id: string,
+    public title: string,
+    public description: string,
+    public people: number,
+    public status: ProjectStatus
+  ) {}
+}
 // ------------------------------
 
 // Project State Management
+type Listener = (items: Project[]) => void;
+
 class ProjectState {
-  private listeners: any[] = [];
-  private projects: any[] = [];
+  private listeners: Listener[] = [];
+  private projects: Project[] = [];
   private static instance: ProjectState;
 
   private constructor() {}
@@ -70,17 +89,18 @@ class ProjectState {
     return this.instance;
   }
 
-  addListener(listenerFn: Function) {
+  addListener(listenerFn: Listener) {
     this.listeners.push(listenerFn);
   }
 
   addProject(title: string, description: string, numOfPeple: number) {
-    const newProject = {
-      id: Math.random().toString(),
-      title: title,
-      description: description,
-      people: numOfPeple
-    };
+    const newProject = new Project(
+      Math.random().toString(),
+      title,
+      description,
+      numOfPeple,
+      ProjectStatus.Active
+    );
     this.projects.push(newProject);
     for (const listenerFn of this.listeners) {
       listenerFn(this.projects.slice());
@@ -95,7 +115,7 @@ class ProjectList {
   templateElement: HTMLTemplateElement;
   hostElement: HTMLDivElement;
   element: HTMLElement;
-  assingnedProjects: any[];
+  assingnedProjects: Project[];
 
   constructor(private type: "active" | "finished") {
     this.templateElement = document.getElementById(
@@ -127,7 +147,7 @@ class ProjectList {
     )! as HTMLUListElement;
     for (const prjItem of this.assingnedProjects) {
       const listItem = document.createElement("li");
-      listItem.textContent = prjItem.title;
+      listItem.textContent = prjItem.title; // With Project Type, we get autocompletion here.
       listEl.appendChild(listItem);
     }
   }
