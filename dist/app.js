@@ -173,7 +173,6 @@ class ProjectInput extends Component {
     configure() {
         this.element.addEventListener("submit", this.submitHandler);
     }
-    renderContent() { }
     clearInputs() {
         this.titleInputElement.value = "";
         this.descriptionInputElement.value = "";

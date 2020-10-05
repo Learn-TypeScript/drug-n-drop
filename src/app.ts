@@ -115,6 +115,10 @@ class ProjectState extends State<Project> {
 
 const projectState = ProjectState.getInstance();
 
+interface Renderable {
+  renderContent?(): void;
+}
+
 // Component Base Class
 abstract class Component<T extends HTMLElement, U extends HTMLElement> {
   templateElement: HTMLTemplateElement;
@@ -160,11 +164,11 @@ abstract class Component<T extends HTMLElement, U extends HTMLElement> {
   }
 
   abstract configure(): void;
-  abstract renderContent(): void;
 }
 
 // ProjectList Class
-class ProjectList extends Component<HTMLDivElement, HTMLElement> {
+class ProjectList extends Component<HTMLDivElement, HTMLElement>
+  implements Renderable {
   assingnedProjects: Project[];
 
   constructor(private type: "active" | "finished") {
@@ -209,7 +213,8 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
 }
 
 // ProjectInput Class
-class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
+class ProjectInput extends Component<HTMLDivElement, HTMLFormElement>
+  implements Renderable {
   // fields
   titleInputElement: HTMLInputElement;
   descriptionInputElement: HTMLInputElement;
@@ -262,8 +267,6 @@ class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
   configure() {
     this.element.addEventListener("submit", this.submitHandler);
   }
-
-  renderContent() {}
 
   private clearInputs() {
     this.titleInputElement.value = "";
