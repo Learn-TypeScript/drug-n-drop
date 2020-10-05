@@ -115,10 +115,6 @@ class ProjectState extends State<Project> {
 
 const projectState = ProjectState.getInstance();
 
-interface Renderable {
-  renderContent?(): void;
-}
-
 // Component Base Class
 abstract class Component<T extends HTMLElement, U extends HTMLElement> {
   templateElement: HTMLTemplateElement;
@@ -164,11 +160,11 @@ abstract class Component<T extends HTMLElement, U extends HTMLElement> {
   }
 
   abstract configure(): void;
+  renderContent?(): void;
 }
 
 // ProjectList Class
-class ProjectList extends Component<HTMLDivElement, HTMLElement>
-  implements Renderable {
+class ProjectList extends Component<HTMLDivElement, HTMLElement> {
   assingnedProjects: Project[];
 
   constructor(private type: "active" | "finished") {
@@ -177,6 +173,18 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement>
 
     this.configure();
     this.renderContent();
+  }
+
+  private renderProjects() {
+    const listEl = document.getElementById(
+      `${this.type}-projects-list`
+    )! as HTMLUListElement;
+    listEl.innerHTML = "";
+    for (const prjItem of this.assingnedProjects) {
+      const listItem = document.createElement("li");
+      listItem.textContent = prjItem.title; // With Project Type, we get autocompletion here.
+      listEl.appendChild(listItem);
+    }
   }
 
   configure() {
@@ -198,23 +206,10 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement>
     this.element.querySelector("h2")!.textContent =
       this.type.toUpperCase() + " PROJECTS";
   }
-
-  private renderProjects() {
-    const listEl = document.getElementById(
-      `${this.type}-projects-list`
-    )! as HTMLUListElement;
-    listEl.innerHTML = "";
-    for (const prjItem of this.assingnedProjects) {
-      const listItem = document.createElement("li");
-      listItem.textContent = prjItem.title; // With Project Type, we get autocompletion here.
-      listEl.appendChild(listItem);
-    }
-  }
 }
 
 // ProjectInput Class
-class ProjectInput extends Component<HTMLDivElement, HTMLFormElement>
-  implements Renderable {
+class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
   // fields
   titleInputElement: HTMLInputElement;
   descriptionInputElement: HTMLInputElement;
