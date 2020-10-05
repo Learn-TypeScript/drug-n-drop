@@ -11,6 +11,7 @@ Created by Maximilian Schwarzmüller
 - from package.json: `"start": "react-scripts start",`. We use lite server instead.
 
 9. **Practice time! Build a Drag n' Drop Project**
+    - `validatableInput.minLength != null`: with one equal sign, JS checks also for `undefined`. So now zero is also checked.
     - 128. The `ProjectState` class has `projects`. The `addProject` adds a project to `projects`. 
         - We want to call `addProject` from `submitHandler` of `ProjectInput` class. So we create in `ProjectState` class a `private` `constructor` (`Singleton`) and a `private` `static` `instance` and a `static` `getInstance` method. So now we'll always work with the same object of this class. Thus we have one state management object.
         - Then in the `ProjectInput` class, we call `addProject` with the values we got from the user. 
@@ -18,3 +19,4 @@ Created by Maximilian Schwarzmüller
         - In the `addProject` we loop through all the `listeners` and we execute all its functions by passing a copy of the projects.  
         - Then we set up a `listener` in the `ProjectList` class, by calling the `addListener` in the constructor. Then we add the `projects` we get from `addListener` to the field of `ProjectList` the `assignedProjects`.
         - Then we render the projects with `renderProjects` function, by getting the `listEl` of the `DOM` and then loop through the assignedProjects, and getting every project's content.
+    - 131. We create a `Component` class, which is `abstract` in order to use it as a `type`. We use a `class` as a `type`, because we want to instantiate it. Then we pass in its `consturctor`: `templateId, hostElementId, insertAtStart, newElementId` to use them accordingly. We also move the `attach` method in `Component`, and we make the `configure` and `renderContent` methods `abstract`. Lastly we create also a `State` class to use it as a type for the `ProjectState` class. The `State` class is `generic`. We pass in the `listeners` and the `addListener` method. So now `ProjectState` may create a `Project` (generic type) or other objects.
