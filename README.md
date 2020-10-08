@@ -65,3 +65,9 @@ Created by Maximilian Schwarzmüller
         - `webpack-dev-server`: Starts webpack under the hood. And triggers to re-compile when something changes.
         - `typescript`: It's smart to have a local specific typescript version, so if you ever change the global TS version, your project will not brake. 
         -  `ts-loader`: Works together with Webpack. It tell Webpack how to convert TS code to JS.
+    - 154. Adding Entry & Output Configuration.
+        - In `tsconfig.json` we don't need `rootDir` anymore, because webpack is going to determine where the root files are! This happens by setting the `entry` in the `webpack.config.js` file.
+        - Remove all `.js` from the imports in all .ts files.
+        - In `output` of `webpack.config.js` we can add dynamic parts. E.g. `bundle.[contenthash].js` to tell webpack to automatically create a unique hash, which will help with cashing in the browser. 
+        - To show the path, webpack wants an **absolute path**, so we need to use nodejs modules. So we import the `path` module, which is in the core nodejs enviroment.
+        - `path: path.resolve(__dirname, 'dist')`: resolve allows to build an absolute path to a certain folder. `__dirname` is a global constant. `'dist'` constracts an absolute path to the dist folder, which then webpack uses to write the output.
