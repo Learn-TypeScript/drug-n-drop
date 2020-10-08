@@ -35,21 +35,35 @@ Created by Maximilian Schwarzmüller
     Check also my reaction to this question: [Please explain the addListener method logic](https://www.udemy.com/course/understanding-typescript/learn/lecture/16935820#questions/10231684)
 
     131. Adding Inheritance & Generics.
-        - We create a `Component` class, which is `abstract` in order to use it as a `type`. We use a `class` as a `type`, because we want to instantiate it. Then we pass in its `consturctor`: `templateId, hostElementId, insertAtStart, newElementId` to use them accordingly. We also move the `attach` method in `Component`, and we make the `configure` and `renderContent` methods `abstract`. Lastly we create also a `State` class to use it as a type for the `ProjectState` class. The `State` class is `generic`. We pass in the `listeners` and the `addListener` method. So now `ProjectState` may create a `Project` (generic type) or other objects.
-        - As about flagging the `renderContent` method as `abstact`, looks that it's redundant. Just leave it `public` and make it optional so `ProjectInput` claas won't have to implement it, and it's working fine. Check: [Optional abstract members](https://github.com/microsoft/TypeScript/issues/6413) and [this](https://www.udemy.com/course/understanding-typescript/learn/lecture/16935850#questions/12474016). Also the branch 131...
+
+    We create a `Component` class, which is `abstract` in order to use it as a `type`. We use a `class` as a `type`, because we want to instantiate it. Then we pass in its `consturctor`: `templateId, hostElementId, insertAtStart, newElementId` to use them accordingly. We also move the `attach` method in `Component`, and we make the `configure` and `renderContent` methods `abstract`. Lastly we create also a `State` class to use it as a type for the `ProjectState` class. The `State` class is `generic`. We pass in the `listeners` and the `addListener` method. So now `ProjectState` may create a `Project` (generic type) or other objects.
+
+    As about flagging the `renderContent` method as `abstact`, looks that it's redundant. Just leave it `public` and make it optional so `ProjectInput` claas won't have to implement it, and it's working fine. Check: [Optional abstract members](https://github.com/microsoft/TypeScript/issues/6413) and [this](https://www.udemy.com/course/understanding-typescript/learn/lecture/16935850#questions/12474016). Also the branch 131...
+
     133. Using a getter in `ProjectItem`. 
-        - It's a convention to put it under the fields. We use it to show on the screen `1 person assigned` or `2 persons assinged`.
+
+    It's a convention to put it under the fields. We use it to show on the screen `1 person assigned` or `2 persons assinged`.
+    
     134. Utilizing Interfaces to Implement Drag & Drop. 
-        - We drag n' drop a project from active projects to finished projects. It's not only about updating the UI but also the data in the `ProjectState` class. We use two `interfaces` to force the classes to implement either drag n drop (`Draggable`), or updating the state (`Dragtarget`). 
-        - `Draggable`: We need the `dragStartHandler` and the `dragEndHandler`. They both take in an `DragEvent` object and return `void`.
-        - `Dragtarget`: We assign the `dragOverHandler`, `dropHandler`, `dragLeaveHandler`. They receive a DragEvent and return also nothing.
-        - We assing the `Draggable` to `ProjectItem` class. In the configure method of this class, we add a listener with the `dragstart` event, which points to the `dragStartHandler`. We add also the `@autobind` to the `dragStartHandler`.
-        - We also need to add the `draggable='true'` attribute, in the `index.html` file, on the `<li>` we want to drag...
+
+    We drag n' drop a project from active projects to finished projects. It's not only about updating the UI but also the data in the `ProjectState` class. We use two `interfaces` to force the classes to implement either drag n drop (`Draggable`), or updating the state (`Dragtarget`). 
+
+    `Draggable`: We need the `dragStartHandler` and the `dragEndHandler`. They both take in an `DragEvent` object and return `void`.
+
+     `Dragtarget`: We assign the `dragOverHandler`, `dropHandler`, `dragLeaveHandler`. They receive a DragEvent and return also nothing.
+
+     We assing the `Draggable` to `ProjectItem` class. In the configure method of this class, we add a listener with the `dragstart` event, which points to the `dragStartHandler`. We add also the `@autobind` to the `dragStartHandler`.
+
+     We also need to add the `draggable='true'` attribute, in the `index.html` file, on the `<li>` we want to drag...
+
     135. Drag Events & Reflecting the Current State in the UI.
-        - We implement the `Dragtarget` interface on the `ProjectList` class. In the `dragOverHandler` we change the UI, so we see where we can drop the project, by changing the background on the area where we want to drop it. We use CSS to do that, so we need to add the `droppable` class on the `<ul>`, by using the [classList](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList). 
-        - In order to have the `dragOverHandler` get fired, we register a listener in the `configure` method, listening to the `dragover` event. We also add two more listeners, the `dragleave` and `drop`, which trigger the according methods. In the `dragLeaveHandler` we remove the `droppable` class, so the UI changes when we leave the area.
+     We implement the `Dragtarget` interface on the `ProjectList` class. In the `dragOverHandler` we change the UI, so we see where we can drop the project, by changing the background on the area where we want to drop it. We use CSS to do that, so we need to add the `droppable` class on the `<ul>`, by using the [classList](https://developer.mozilla.org/eUS/docs/Web/API/Element/classList). 
+
+    In order to have the `dragOverHandler` get fired, we register a listener in the `configure` method, listening to the `dragover` event. We also add two more listeners, the `dragleave` and `drop`, which trigger the according methods. In the `dragLeaveHandler` we remove the `droppable` class, so the UI changes when we leave the area.
+    
     136. Adding a Droppable area.
-        - In the `dragStartHandler`, on the event object we use the [dataTransfer](https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer) property, to set data on that event (which we later can get when dropping), by using the [setData](https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/setData). 
+
+    In the `dragStartHandler`, on the event object we use the [dataTransfer](https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer) property, to set data on that event (which we later can get when dropping), by using the [setData](https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/setData). 
         - Then we set the effect that our event want to have, with [DataTransfer.effectAllowed](https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/effectAllowed), which is `move`.
         - In the `dragOverHandler` we check the type of data we drag, and if OK we update the background. We also call `event.preventDefault()` because the default for JS events is to not allow dropping!   
     137. Finishing Drag & Drop.
