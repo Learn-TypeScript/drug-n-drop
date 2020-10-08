@@ -40,17 +40,17 @@ Created by Maximilian Schwarzmüller
 
     Check also my reaction to this question: [Please explain the addListener method logic](https://www.udemy.com/course/understanding-typescript/learn/lecture/16935820#questions/10231684)
 
-    131. Adding Inheritance & Generics.
+    [131]. Adding Inheritance & Generics.
 
     We create a `Component` class, which is `abstract` in order to use it as a `type`. We use a `class` as a `type`, because we want to instantiate it. Then we pass in its `consturctor`: `templateId, hostElementId, insertAtStart, newElementId` to use them accordingly. We also move the `attach` method in `Component`, and we make the `configure` and `renderContent` methods `abstract`. Lastly we create also a `State` class to use it as a type for the `ProjectState` class. The `State` class is `generic`. We pass in the `listeners` and the `addListener` method. So now `ProjectState` may create a `Project` (generic type) or other objects.
 
     As about flagging the `renderContent` method as `abstact`, looks that it's redundant. Just leave it `public` and make it optional so `ProjectInput` claas won't have to implement it, and it's working fine. Check: [Optional abstract members](https://github.com/microsoft/TypeScript/issues/6413) and [this](https://www.udemy.com/course/understanding-typescript/learn/lecture/16935850#questions/12474016). Also the branch 131...
 
-    133. Using a getter in `ProjectItem`. 
+    [133]. Using a getter in `ProjectItem`. 
 
     It's a convention to put it under the fields. We use it to show on the screen `1 person assigned` or `2 persons assinged`.
     
-    134. Utilizing Interfaces to Implement Drag & Drop. 
+    [134]. Utilizing Interfaces to Implement Drag & Drop. 
 
     We drag n' drop a project from active projects to finished projects. It's not only about updating the UI but also the data in the `ProjectState` class. We use two `interfaces` to force the classes to implement either drag n drop (`Draggable`), or updating the state (`Dragtarget`). 
 
@@ -62,23 +62,34 @@ Created by Maximilian Schwarzmüller
 
      We also need to add the `draggable='true'` attribute, in the `index.html` file, on the `<li>` we want to drag...
 
-    135. Drag Events & Reflecting the Current State in the UI.
+    [135]. Drag Events & Reflecting the Current State in the UI.
+
      We implement the `Dragtarget` interface on the `ProjectList` class. In the `dragOverHandler` we change the UI, so we see where we can drop the project, by changing the background on the area where we want to drop it. We use CSS to do that, so we need to add the `droppable` class on the `<ul>`, by using the [classList](https://developer.mozilla.org/eUS/docs/Web/API/Element/classList). 
 
     In order to have the `dragOverHandler` get fired, we register a listener in the `configure` method, listening to the `dragover` event. We also add two more listeners, the `dragleave` and `drop`, which trigger the according methods. In the `dragLeaveHandler` we remove the `droppable` class, so the UI changes when we leave the area.
 
-    136. Adding a Droppable area.
+    [136]. Adding a Droppable area.
 
     In the `dragStartHandler`, on the event object we use the [dataTransfer](https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer) property, to set data on that event (which we later can get when dropping), by using the [setData](https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/setData). 
-        - Then we set the effect that our event want to have, with [DataTransfer.effectAllowed](https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/effectAllowed), which is `move`.
-        - In the `dragOverHandler` we check the type of data we drag, and if OK we update the background. We also call `event.preventDefault()` because the default for JS events is to not allow dropping!   
-    137. Finishing Drag & Drop.
-        - Get the `id` of the project we want to move, in the `dropHandler`. 
-        - In order to change the state of a project (from active to finished) we create a `moveProject` method in `addProject` of `ProjectState` class. The `moveProject` takes as arguments the `projectId` and the `newStatus`. We check if we have a much between the `projects` and the `projectId`, and if yes then we assing to it the `newStatus`.
-        - We need to update the `listeners` and re-render the `assignedProjects`. So we move the `for-loop` that calls all the `listeners-functions`, from the `addProject` to a new `updateListeners` method, which we now call not only from `addProject`, but also from `moveProject`.
-        - So now in dropHandler we can call moveProject.
-        - Lastly in moveProject we first check if the newStatus is changed and then update the listeners and re-render. So it won't re-render if we leave the project where we got it. 
-    - More on Drag & Drop: https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API
+
+    Then we set the effect that our event want to have, with [DataTransfer.effectAllowed](https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/effectAllowed), which is `move`.
+
+    In the `dragOverHandler` we check the type of data we drag, and if OK we update the background. We also call `event.preventDefault()` because the default for JS events is to not allow dropping! 
+
+    [137]. Finishing Drag & Drop.
+
+    Get the `id` of the project we want to move, in the `dropHandler`. 
+
+    In order to change the state of a project (from active to finished) we create a `moveProject` method in `addProject` of `ProjectState` class. The `moveProject` takes as arguments the `projectId` and the `newStatus`. We check if we have a much between the `projects` and the `projectId`, and if yes then we assing to it the `newStatus`.
+
+    We need to update the `listeners` and re-render the `assignedProjects`. So we move the `for-loop` that calls all the `listeners-functions`, from the `addProject` to a new `updateListeners` method, which we now call not only from `addProject`, but also from `moveProject`.
+
+    So now in dropHandler we can call moveProject.
+
+    Lastly in moveProject we first check if the newStatus is changed and then update the listeners and re-render. So it won't re-render if we leave the project where we got it. 
+
+    More on Drag & Drop: https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API
+
 10. Modules & Namespaces.
     - Namespaces is an intresting way to seperate code in files. 
     - There is no seperation in this project (just watch the videos).
@@ -86,7 +97,7 @@ Created by Maximilian Schwarzmüller
         - JavaScript Modules (Overview): https://medium.com/computed-comparisons/commonjs-vs-amd-vs-requirejs-vs-es6-modules-2e814b114a0b
         - More on ES Modules: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
 11. Using Webpack with Typescript.
-    151. Module Introduction.
+    [151]. Module Introduction.
         - NOTE: I coppied the code from the course Resources, and deleted the old `app.ts` so I can follow along.
         - Compare Normal setup with Webpack setup:
         - With Normal set up we have multiple .ts files & imports which means Http requests whish yieds low latency. But with Webpack we have code bundles, so less imports required.
