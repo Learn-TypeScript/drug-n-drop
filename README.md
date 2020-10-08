@@ -11,12 +11,18 @@ Created by Maximilian Schwarzmüller
 - Remove from package.json: `"start": "react-scripts start",`. We use lite server instead.
 
 9. **Practice time! Build a Drag n' Drop Project**
+
     122. DOM Element Selection & OOP Rendering
-        - [Document.importNode()](https://developer.mozilla.org/en-US/docs/Web/API/Document/importNode)
-        - [Element.insertAdjacentElement()](https://www.w3schools.com/jsref/met_node_insertadjacentelement.asp)
-        - [firstElementChild](https://www.w3schools.com/jsref/prop_element_firstelementchild.asp)
-    - `validatableInput.minLength != null`: with one equal sign, JS checks also for `undefined`. So now zero is also checked.
-    128. 
+
+    [Document.importNode()](https://developer.mozilla.org/en-US/docs/Web/API/Document/importNode)
+
+    [Element.insertAdjacentElement()](https://www.w3schools.com/jsref/met_node_insertadjacentelement.asp)
+
+    [firstElementChild](https://www.w3schools.com/jsref/prop_element_firstelementchild.asp)
+
+    `validatableInput.minLength != null`: with one equal sign, JS checks also for `undefined`. So now zero is also checked.
+    
+    [128]. 
     
     The `ProjectState` class has `projects`. The `addProject` adds a project to `projects`. 
 
@@ -60,7 +66,7 @@ Created by Maximilian Schwarzmüller
      We implement the `Dragtarget` interface on the `ProjectList` class. In the `dragOverHandler` we change the UI, so we see where we can drop the project, by changing the background on the area where we want to drop it. We use CSS to do that, so we need to add the `droppable` class on the `<ul>`, by using the [classList](https://developer.mozilla.org/eUS/docs/Web/API/Element/classList). 
 
     In order to have the `dragOverHandler` get fired, we register a listener in the `configure` method, listening to the `dragover` event. We also add two more listeners, the `dragleave` and `drop`, which trigger the according methods. In the `dragLeaveHandler` we remove the `droppable` class, so the UI changes when we leave the area.
-    
+
     136. Adding a Droppable area.
 
     In the `dragStartHandler`, on the event object we use the [dataTransfer](https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer) property, to set data on that event (which we later can get when dropping), by using the [setData](https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/setData). 
