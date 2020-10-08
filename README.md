@@ -53,4 +53,15 @@ Created by Maximilian Schwarzmüller
     - These links might also be interesting:
         - JavaScript Modules (Overview): https://medium.com/computed-comparisons/commonjs-vs-amd-vs-requirejs-vs-es6-modules-2e814b114a0b
         - More on ES Modules: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
-
+11. Using Webpack with Typescript.
+    - NOTE: I coppied the code from the course Resources, and deleted the old `app.ts` so I can follow along.
+    - Compare Normal setup with Webpack setup:
+        - With Normal set up we have multiple .ts files & imports which means Http requests whish yieds low latency. But with Webpack we have code bundles, so less imports required.
+        - N: Unoptimized code (not as small as possible). W: Optimized code, so less code to download.
+        - N: External development server needed (lite-server). W: We can add more build steps... 
+    - `npm install --save-dev webpack webpack-cli webpack-dev-server typescript ts-loader`
+        - `--save-dev webpack`: Is the heart of the setup. It's a tool that allows us plug certain functionalities, to bundle and **transform** our code, i.e. transform the code to JS and also bundle it.
+        - `webpack-cli`: With that we can run commands to our projects.
+        - `webpack-dev-server`: Starts webpack under the hood. And triggers to re-compile when something changes.
+        - `typescript`: It's smart to have a local specific typescript version, so if you ever change the global TS version, your project will not brake. 
+        -  `ts-loader`: Works together with Webpack. It tell Webpack how to convert TS code to JS.
