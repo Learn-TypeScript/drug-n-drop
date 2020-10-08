@@ -156,3 +156,15 @@ Created by Maximilian Schwarzmüller
     With `webpack-dev-server`, the `bundle.js` file is writen only in memory, not in the disc. So we need to add `publicPath: 'dist'` in `webpack.config.js` to configure that accordingly.
     
     Set `mode: "development"` so WP will do fewer optimizations, and make debugging easier, i.e. give us more meaningfull errors.
+
+    [157]. Adding a Production Workflow.
+
+    For production, we need a different workflow.
+
+    `webpack.config.prod.js` this name is up to you. WP will not look for it by default.
+
+    `clean-webpack-plugin`: cleans the dist folder, i.e. deletes the old bundle.js just before the new is created.
+
+    Add in `package.json` `"build": "webpack --config webpack.config.prod.js` so webpack will run the according file.
+
+    Official Webpack Docs: https://webpack.js.org/
