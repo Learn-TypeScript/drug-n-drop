@@ -71,3 +71,12 @@ Created by Maximilian Schwarzmüller
         - In `output` of `webpack.config.js` we can add dynamic parts. E.g. `bundle.[contenthash].js` to tell webpack to automatically create a unique hash, which will help with cashing in the browser. 
         - To show the path, webpack wants an **absolute path**, so we need to use nodejs modules. So we import the `path` module, which is in the core nodejs enviroment.
         - `path: path.resolve(__dirname, 'dist')`: resolve allows to build an absolute path to a certain folder. `__dirname` is a global constant. `'dist'` constracts an absolute path to the dist folder, which then webpack uses to write the output.
+    - 155. Adding TypeScript Support with the ts-loader Package.
+        - in `module` of `webpack.config.js` webpack understands how to work with files. There you can set multiple `rules` that may apply to the files. One rule is: `/\.ts$/` which is a regex that tells webpack to look for files that end with `.ts`.
+        - With `use` specify what to do with the files.
+        - `resolve`: Tell wbp which file extensions to add to the imports.
+        - `devtools: "inline-source-map"`: extract the source-map files and add them to the bundle.
+        - To use webpack, go to package.json and add: "`build": "webpack",` in the scripts. 
+    - 156. Finishing the Setup & Adding webpack-dev-server.
+        - With webpack-dev-server, the bundle.js file is writen only in memory, not in the disc. So we need to add `publicPath: 'dist'` in `webpack.config.js` to configure that accordingly.
+        - Set `mode: "development"` so WP will do fewer optimizations, make debugging easier, i.e. give us more meaningfull errors.
