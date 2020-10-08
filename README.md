@@ -46,5 +46,11 @@ Created by Maximilian Schwarzmüller
         - We need to update the `listeners` and re-render the `assignedProjects`. So we move the `for-loop` that calls all the `listeners-functions`, from the `addProject` to a new `updateListeners` method, which we now call not only from `addProject`, but also from `moveProject`.
         - So now in dropHandler we can call moveProject.
         - Lastly in moveProject we first check if the newStatus is changed and then update the listeners and re-render. So it won't re-render if we leave the project where we got it. 
-
     - More on Drag & Drop: https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API
+10. Modules & Namespaces.
+    - Namespaces is an intresting way to seperate code in files. 
+    - There is no seperation in this project (just watch the videos).
+    - These links might also be interesting:
+        - JavaScript Modules (Overview): https://medium.com/computed-comparisons/commonjs-vs-amd-vs-requirejs-vs-es6-modules-2e814b114a0b
+        - More on ES Modules: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
+
