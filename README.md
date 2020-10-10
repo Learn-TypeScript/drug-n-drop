@@ -171,10 +171,18 @@ Created by Maximilian Schwarzmüller
 
 12. **3rd Party Libraries & TypeScript**
 
-    Because [lodash](https://lodash.com/docs/4.17.15#shuffle) is a JS library, we need to install also `install --save-dev @types/lodash` which does the translation for TS.
+    [161] Because [lodash](https://lodash.com/docs/4.17.15#shuffle) is a JS library, we need to install also `install --save-dev @types/lodash` which does the translation for TS.
     Check: [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/lodash) and [@types/lodash](https://www.npmjs.com/package/@types/lodash)
 
-    
+    [162] Using "declare" as a "Last Resort".
+
+    In case you have a library, and you cannot use `@types/...` the use `declare`. E.g. set a global variable in `index.html` and then use `declare` to access it.
+
+    [163] [class-transformer](https://github.com/typestack/class-transformer)
+
+    Use `class-transformer` to initalize classes with objects automatically. NOTE: In order to use it, set in `tsconfig.json ` `"module": "commonjs"`.
+
+    [164] [class-validator](https://github.com/typestack/class-validator#installation) It builds up on the consept of TS decorators 
 
 
 
