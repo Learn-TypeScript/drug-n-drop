@@ -168,3 +168,13 @@ Created by Maximilian Schwarzmüller
     Add in `package.json` `"build": "webpack --config webpack.config.prod.js` so webpack will run the according file.
 
     Official Webpack Docs: https://webpack.js.org/
+
+12. **3rd Party Libraries & TypeScript**
+
+    Because [lodash](https://lodash.com/docs/4.17.15#shuffle) is a JS library, we need to install also `install --save-dev @types/lodash` which does the translation for TS.
+    Check: [DefinitelyTyped](https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/lodash) and [@types/lodash](https://www.npmjs.com/package/@types/lodash)
+
+    
+
+
+
