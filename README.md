@@ -176,7 +176,7 @@ Created by Maximilian Schwarzmüller
 
     [162] Using "declare" as a "Last Resort".
 
-    In case you have a library, and you cannot use `@types/...` the use `declare`. E.g. set a global variable in `index.html` and then use `declare` to access it.
+    In case you have a library, and you cannot use `@types/...` then use `declare`. E.g. set a global variable in `index.html` and then use `declare` to access it.
 
     [163] [class-transformer](https://github.com/typestack/class-transformer)
 
