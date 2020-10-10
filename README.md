@@ -90,7 +90,7 @@ Created by Maximilian Schwarzmüller
 
     More on Drag & Drop: https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API
 
-10. Modules & Namespaces.
+10. **Modules & Namespaces**.
     Namespaces is an intresting way to seperate code in files. 
 
     There is no seperation in this project (just watch the videos).
@@ -101,13 +101,13 @@ Created by Maximilian Schwarzmüller
     
     More on ES Modules: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
 
-11. Using Webpack with Typescript.
+11. **Using Webpack with Typescript**.
 
     [151]. Module Introduction.
     
     NOTE: I copied the code from the course Resources, and deleted the old `app.ts` so I can follow along.
     
-    Compare Normal setup with Webpack setup:
+    Comparison of Normal setup with Webpack setup:
     
     With Normal set up we have multiple `.ts` files & imports which means `Http` requests whish yieds **low latency**. But with Webpack we have code bundles, so less imports required.
     
@@ -125,13 +125,13 @@ Created by Maximilian Schwarzmüller
     
     `typescript`: It's smart to have a local specific typescript version, so if you ever change the global TS version, your project will not brake. 
     
-    `ts-loader`: Works together with Webpack. It tell Webpack how to convert TS code to JS.
+    `ts-loader`: Works together with Webpack. It tells Webpack how to convert TS code to JS.
 
     [154]. Adding Entry & Output Configuration.
     
     In `tsconfig.json` we don't need `rootDir` anymore, because webpack is going to determine where the root files are! This happens by setting the `entry` in the `webpack.config.js` file.
     
-    Remove all `.js` from the imports in all .ts files.
+    Remove all `.js` from the imports in all `.ts` files.
     
     In `output` of `webpack.config.js` we can add dynamic parts. E.g. `bundle.[contenthash].js` to tell webpack to automatically create a unique hash, which will help with cashing in the browser (but we're not going to use that here). 
     
@@ -147,9 +147,9 @@ Created by Maximilian Schwarzmüller
     
     `resolve`: Tell wbp, which file extensions to add to the imports.
     
-    `devtools: "inline-source-map"`: extract the source-map files and add them to the bundle.
+    `devtool: "inline-source-map"`: extract the source-map files and add them to the bundle.
     
-    To use webpack, go to package.json and add: "`build": "webpack",` in the scripts. 
+    To use webpack, go to `package.json` and add: "`build": "webpack",` in the scripts. Then you can "npm run build".
 
     [156]. Finishing the Setup & Adding webpack-dev-server.
     
@@ -163,7 +163,7 @@ Created by Maximilian Schwarzmüller
 
     `webpack.config.prod.js` this name is up to you. WP will not look for it by default.
 
-    `clean-webpack-plugin`: cleans the dist folder, i.e. deletes the old bundle.js just before the new is created.
+    `clean-webpack-plugin`: cleans the dist folder, i.e. deletes the old `bundle.js` just before the new is created.
 
     Add in `package.json` `"build": "webpack --config webpack.config.prod.js` so webpack will run the according file.
 
