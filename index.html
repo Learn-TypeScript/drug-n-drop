@@ -9,6 +9,8 @@
     <script type="module" src="dist/bundle.js"></script>
   </head>
   <body>
+    <!-- These html tags inside of template, are not rendered immediately, 
+    but instead they can be reached by TS and get render through some logic. -->
     <template id="project-input">
       <form>
         <div class="form-control">
@@ -26,6 +28,8 @@
         <button type="submit">ADD PROJECT</button>
       </form>
     </template>
+    <!-- This template, with the list item, will be used to render a single project, 
+    which is the below template with id="project-list" -->
     <template id="single-project">
       <li draggable="true">
         <h2></h2>
