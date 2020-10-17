@@ -64,7 +64,7 @@ Created by Maximilian Schwarzmüller
 
     [135]. Drag Events & Reflecting the Current State in the UI.
 
-     We implement the `Dragtarget` interface on the `ProjectList` class. In the `dragOverHandler` we change the UI, so we see where we can drop the project, by changing the background on the area where we want to drop it. We use CSS to do that, so we need to add the `droppable` class on the `<ul>`, by using the [classList](https://developer.mozilla.org/eUS/docs/Web/API/Element/classList). 
+     We implement the `Dragtarget` interface on the `ProjectList` class. In the `dragOverHandler` we change the UI, so we see where we can drop the project, by changing the background on the area where we want to drop it. We use CSS to do that, so we need to add the `droppable` class on the `<ul>`, by using the [classList](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList). 
 
     In order to have the `dragOverHandler` get fired, we register a listener in the `configure` method, listening to the `dragover` event. We also add two more listeners, the `dragleave` and `drop`, which trigger the according methods. In the `dragLeaveHandler` we remove the `droppable` class, so the UI changes when we leave the area.
 
@@ -80,7 +80,7 @@ Created by Maximilian Schwarzmüller
 
     Get the `id` of the project we want to move, in the `dropHandler`. 
 
-    In order to change the state of a project (from active to finished) we create a `moveProject` method in `addProject` of `ProjectState` class. The `moveProject` takes as arguments the `projectId` and the `newStatus`. We check if we have a much between the `projects` and the `projectId`, and if yes then we assing to it the `newStatus`.
+    In order to change the state of a project (from active to finished) we create a `moveProject` method in `addProject` of `ProjectState` class. The `moveProject` takes as arguments the `projectId` and the `newStatus`. We check if we have a match between the `projects` and the `projectId`, and if yes then we assing to it the `newStatus`.
 
     We need to update the `listeners` and re-render the `assignedProjects`. So we move the `for-loop` that calls all the `listeners-functions`, from the `addProject` to a new `updateListeners` method, which we now call not only from `addProject`, but also from `moveProject`.
 
