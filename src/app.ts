@@ -1,50 +1,38 @@
-import "reflect-metadata"; // "class-transformer" depens on this import.
-import { plainToClass } from "class-transformer";
-import { validate } from "class-validator";
+class InputClass {
+  templateElem: HTMLTemplateElement;
+  hostElem: HTMLDivElement;
+  element: HTMLFormElement;
+  title: HTMLInputElement;
+  people: HTMLInputElement;
+  desc: HTMLInputElement;
 
-import { ProjectInput } from "./components/project-input";
-import { ProjectList } from "./components/project-list";
-import Product from "./product.model";
+  constructor() {
+    this.templateElem = document.getElementById(
+      "project-input"
+    )! as HTMLTemplateElement;
+    this.hostElem = document.getElementById("app")! as HTMLDivElement;
 
-// For `lodash`
-import _ from "lodash";
-console.log(_.shuffle([1, 2, 3]));
+    const importedNode = document.importNode(this.templateElem.content, true);
+    this.element = importedNode.firstElementChild as HTMLFormElement;
+    this.element.id = "user-input";
+    this.attach();
+    this.configure();
 
-// For `declare`
-declare var GLOBAL: any;
-console.log(GLOBAL);
+    this.title = this.element.querySelector("#title") as HTMLInputElement;
+    this.people = this.element.querySelector("#people") as HTMLInputElement;
+    this.desc = this.element.querySelector("#description") as HTMLInputElement;
+  }
+  private submitHandler(e: Event) {
+    e.preventDefault();
+    console.log(this.title.value);
+  }
 
-// For Drag n Drop
-new ProjectInput();
-new ProjectList("active");
-new ProjectList("finished");
-
-// Imagine you got this from the backend
-const products = [
-  { title: "Carpet", price: 30 },
-  { title: "A book", price: 10 }
-];
-
-// Create manually instances of Product class.
-// const loadedProducts = products.map(product => {
-//   return new Product(product.title, product.price);
-// });
-
-const loadedProducts = plainToClass(Product, products);
-
-for (const product of loadedProducts) {
-  console.log(product.getInformation());
+  private configure() {
+    this.element.addEventListener("submit", this.submitHandler.bind(this));
+  }
+  private attach() {
+    this.hostElem.insertAdjacentElement("afterbegin", this.element);
+  }
 }
 
-const p1 = new Product("A book", 13);
-console.log(p1.getInformation());
-
-// Testing class-validator
-const newProd = new Product("", -2);
-validate(newProd).then(errors => {
-  if (errors.length > 0) {
-    console.log("VALIDATION ERRORS: ", errors);
-  } else {
-    console.log(newProd.getInformation());
-  }
-});
+const input1 = new InputClass();

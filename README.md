@@ -6,6 +6,10 @@ Created by Maximilian Schwarzmüller
 
 - This is the continue of the `understanding-typescript` repo.
 
+- This repo, contains two extra files:
+    1. `old-app.ts` which is the first app, that holds all the code in just one file.
+    2. `app-remake` that holds again all the code in one file, but this time, by trying to do it on my own, after watching each lecture. 
+
 ### Notes
 
 - Remove from package.json: `"start": "react-scripts start",`. We use lite server instead.
