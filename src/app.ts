@@ -1,3 +1,11 @@
+function Autobind(_: any, _2: any, desc: PropertyDescriptor) {
+  return {
+    get() {
+      return desc.value.bind(this);
+    }
+  };
+}
+
 class InputClass {
   templateElem: HTMLTemplateElement;
   hostElem: HTMLDivElement;
@@ -22,6 +30,7 @@ class InputClass {
     this.people = this.element.querySelector("#people") as HTMLInputElement;
     this.desc = this.element.querySelector("#description") as HTMLInputElement;
   }
+  @Autobind
   private submitHandler(e: Event) {
     e.preventDefault();
     console.log(this.title.value);

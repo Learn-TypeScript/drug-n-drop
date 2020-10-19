@@ -26,6 +26,18 @@ Created by Maximilian Schwarzmüller
 
     `validatableInput.minLength != null`: with one equal sign, JS checks also for `undefined`. So now zero is also checked.
     
+    [124]. After all, the `@Autobind decorator` can be like this:
+    
+        ```js
+            function Autobind(_: any, _2: any, desc: PropertyDescriptor) {
+                return {
+                    get() {
+                    return desc.value.bind(this);
+                    }
+                };
+                }
+        ```
+    
     [128]. 
     
     The `ProjectState` class has `projects`. The `addProject` adds a project to `projects`. 
