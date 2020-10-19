@@ -31,10 +31,46 @@ function Autobind(_: any, _2: any, desc: PropertyDescriptor) {
   };
 }
 
+class ProjectClass {
+  private listeners: any[] = [];
+  private projects: any[] = [];
+  private static instance: ProjectClass;
+
+  private constructor() {}
+
+  addProject(title: string, people: number, description: string) {
+    const newProject = {
+      id: Math.random().toString(),
+      title,
+      description,
+      people
+    };
+    this.projects.push(newProject);
+    for (const listenerFn of this.listeners) {
+      listenerFn(this.projects.slice());
+    }
+  }
+
+  static getInstance() {
+    if (this.instance) {
+      return this.instance;
+    }
+    this.instance = new ProjectClass();
+    return this.instance;
+  }
+
+  addListener(listernFn: Function) {
+    this.listeners.push(listernFn);
+  }
+}
+
+const projectInstance = ProjectClass.getInstance();
+
 class ListClass {
   templateElem: HTMLTemplateElement;
   hostElem: HTMLDivElement;
   element: HTMLElement;
+  assingedProjects: any[] = [];
 
   constructor(public type: "active" | "finished") {
     this.templateElem = document.getElementById(
@@ -45,8 +81,24 @@ class ListClass {
     const importedNode = document.importNode(this.templateElem.content, true);
     this.element = importedNode.firstElementChild as HTMLElement;
     this.element.id = `${this.type}-projects`;
+
+    projectInstance.addListener((projects: any[]) => {
+      this.assingedProjects = projects;
+      this.renderProjects();
+    });
     this.attach();
     this.renderContent();
+  }
+
+  private renderProjects() {
+    const listEl = document.getElementById(
+      `${this.type}-projects-list`
+    )! as HTMLUListElement;
+    for (const prjItem of this.assingedProjects) {
+      const listItem = document.createElement("li");
+      listItem.textContent = prjItem.title;
+      listEl.appendChild(listItem);
+    }
   }
 
   private renderContent() {
@@ -125,7 +177,8 @@ class InputClass {
     // Without this if check we get the following error:
     // Type 'void | [string, number, string]' must have a '[Symbol.iterator]()' method that returns an iterator.
     if (Array.isArray(userInput)) {
-      const [title, desc, people] = userInput;
+      const [title, people, desc] = userInput;
+      projectInstance.addProject(title, people, desc);
       console.log(title, people, desc);
     }
     this.clearInputs();
