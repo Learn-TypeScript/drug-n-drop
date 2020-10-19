@@ -31,10 +31,47 @@ function Autobind(_: any, _2: any, desc: PropertyDescriptor) {
   };
 }
 
+class ProjectClass {
+  projects: any[] = [];
+  static instance: any;
+
+  private constructor() {}
+
+  static createInstance() {
+    if (this.instance) {
+      return this.instance;
+    }
+    this.instance = new ProjectClass();
+    return this.instance;
+  }
+
+  public addProject(t: string, p: string, d: string) {
+    console.log("addProject");
+
+    const newProject = {
+      id: Math.random().toString(),
+      title: t,
+      people: p,
+      desc: d
+    };
+    this.projects.push(newProject);
+    list.renderProjects();
+  }
+
+  public getProjects() {
+    console.log("getProjects");
+
+    return this.projects.slice();
+  }
+}
+
+const project = ProjectClass.createInstance();
+
 class ListClass {
   templateElem: HTMLTemplateElement;
   hostElem: HTMLDivElement;
   element: HTMLElement;
+  //   assingedProjects: any[] = [];
 
   constructor(public type: "active" | "finished") {
     this.templateElem = document.getElementById(
@@ -45,8 +82,26 @@ class ListClass {
     const importedNode = document.importNode(this.templateElem.content, true);
     this.element = importedNode.firstElementChild as HTMLElement;
     this.element.id = `${this.type}-projects`;
+
     this.attach();
     this.renderContent();
+  }
+
+  public renderProjects() {
+    console.log("renderProjects");
+
+    const listEl = document.getElementById(
+      `${this.type}-projects-list`
+    )! as HTMLUListElement;
+    const projects = project.getProjects();
+    for (const project of projects) {
+      const listItem = document.createElement("li")!;
+      console.log("project.title", project.title);
+      if (!!project) {
+        listItem.textContent = project.title;
+        listEl.appendChild(listItem);
+      }
+    }
   }
 
   private renderContent() {
@@ -121,11 +176,11 @@ class InputClass {
   private submitHandler(e: Event) {
     e.preventDefault();
     const userInput = this.getUserInput();
-    console.log(userInput);
     // Without this if check we get the following error:
     // Type 'void | [string, number, string]' must have a '[Symbol.iterator]()' method that returns an iterator.
     if (Array.isArray(userInput)) {
       const [title, desc, people] = userInput;
+      project.addProject(title, people, desc);
       console.log(title, people, desc);
     }
     this.clearInputs();
