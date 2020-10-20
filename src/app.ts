@@ -39,7 +39,7 @@ enum Status {
 type ProjectType = {
   id: string;
   title: string;
-  people: number;
+  people: string;
   desc: string;
   status: Status;
 };
@@ -105,9 +105,7 @@ class ProjectClass {
     return this.instance;
   }
 
-  public addProject(t: string, p: number, d: string) {
-    console.log("addProject");
-
+  public addProject(t: string, p: string, d: string) {
     const newProject: ProjectType = {
       id: Math.random().toString(),
       title: t,
@@ -128,6 +126,39 @@ class ProjectClass {
 
 const project = ProjectClass.createInstance();
 
+class ProjectItemClass extends BaseClass<HTMLUListElement, HTMLLIElement> {
+  private project: ProjectType;
+
+  get pluralForPeople() {
+    if (parseInt(this.project.people) === 1) {
+      return `Only ${this.project.people} assigned person.`;
+    }
+    return `${this.project.people} assigned persons.`;
+  }
+
+  constructor(elemId: string, project: ProjectType) {
+    super("single-project", elemId, project.id, true);
+    this.project = project;
+
+    this.configure();
+    this.renderContent();
+  }
+
+  // pluralForPeople() {
+  //   if (parseInt(this.project.people) === 1) {
+  //     return `Only ${this.project.people} assigned person.`;
+  //   }
+  //   return `${this.project.people} assigned persons.`;
+  // }
+
+  renderContent() {
+    this.element.querySelector("h2")!.textContent = this.project.title;
+    this.element.querySelector("h3")!.textContent = this.pluralForPeople;
+    this.element.querySelector("p")!.textContent = this.project.desc;
+  }
+  configure() {}
+}
+
 class ListClass extends BaseClass<HTMLDivElement, HTMLElement> {
   constructor(public type: "active" | "finished") {
     super("project-list", "app", `${type}-projects`, false);
@@ -136,20 +167,18 @@ class ListClass extends BaseClass<HTMLDivElement, HTMLElement> {
   }
 
   public renderProjects() {
-    console.log("renderProjects");
-
     const listEl = document.getElementById(
       `${this.type}-projects-list`
     )! as HTMLUListElement;
     listEl.textContent = "";
     const projects = project.getProjects();
     for (const project of projects) {
-      const listItem = document.createElement("li")!;
-      console.log("project.title", project.title);
-      if (!!project) {
-        listItem.textContent = project.title;
-        listEl.appendChild(listItem);
-      }
+      // const listItem = document.createElement("li")!;
+      // if (!!project) {
+      //   listItem.textContent = project.title;
+      //   listEl.appendChild(listItem);
+      // }
+      new ProjectItemClass(this.element.querySelector("ul")!.id, project);
     }
   }
 
@@ -191,13 +220,13 @@ class InputClass extends BaseClass<HTMLDivElement, HTMLFormElement> {
     this.desc.value = "";
   }
 
-  private getUserInput(): [string, number, string] | void {
+  private getUserInput(): [string, string, string] | void {
     const title = this.title.value;
     const people = this.people.value;
     const desc = this.desc.value;
 
     const validTitle = { value: title, minLength: 3, required: true };
-    const validPeople = { value: +people, min: 1, max: 10, required: true };
+    const validPeople = { value: people, min: 1, max: 10, required: true };
     const validDesc = { value: desc, minLength: 5, required: true };
 
     if (
@@ -205,7 +234,7 @@ class InputClass extends BaseClass<HTMLDivElement, HTMLFormElement> {
       validation(validPeople) &&
       validation(validDesc)
     ) {
-      return [title, +people, desc];
+      return [title, people, desc];
     } else {
       alert("No valid input...");
       return;
@@ -221,7 +250,6 @@ class InputClass extends BaseClass<HTMLDivElement, HTMLFormElement> {
     if (Array.isArray(userInput)) {
       const [title, people, desc] = userInput;
       project.addProject(title, people, desc);
-      console.log(title, people, desc);
     }
     this.clearInputs();
   }
