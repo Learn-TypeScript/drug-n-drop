@@ -31,9 +31,69 @@ function Autobind(_: any, _2: any, desc: PropertyDescriptor) {
   };
 }
 
+enum Status {
+  Active,
+  Finished
+}
+
+type ProjectType = {
+  id: string;
+  title: string;
+  people: number;
+  desc: string;
+  status: Status;
+};
+// class ProjectType {
+//   constructor(
+//     public id: string,
+//     public title: string,
+//     public people: number,
+//     public desc: string,
+//     public status: Status
+//   ) {}
+// }
+
+abstract class BaseClass<T extends HTMLElement, U extends HTMLElement> {
+  templateElem: HTMLTemplateElement;
+  hostElem: T;
+  element: U;
+
+  constructor(
+    tempElementId: string,
+    hostElemId: string,
+    elemId: string,
+    afterBegin: boolean
+  ) {
+    this.templateElem = document.getElementById(
+      tempElementId
+    )! as HTMLTemplateElement;
+    this.hostElem = document.getElementById(hostElemId)! as T;
+
+    const importedNode = document.importNode(this.templateElem.content, true);
+    this.element = importedNode.firstElementChild as U;
+    if (elemId) {
+      this.element.id = elemId;
+    }
+
+    this.attach(afterBegin);
+  }
+
+  private attach(afterBegin: boolean) {
+    /* If we use a string we get the following error:
+    Argument of type 'string' is not assignable to parameter of type 'InsertPosition'. */
+    this.hostElem.insertAdjacentElement(
+      afterBegin ? "afterbegin" : "beforeend",
+      this.element
+    );
+  }
+
+  abstract configure(): void;
+  abstract renderContent(): void;
+}
+
 class ProjectClass {
-  projects: any[] = [];
-  static instance: any;
+  projects: ProjectType[] = [];
+  static instance: ProjectClass;
 
   private constructor() {}
 
@@ -45,14 +105,15 @@ class ProjectClass {
     return this.instance;
   }
 
-  public addProject(t: string, p: string, d: string) {
+  public addProject(t: string, p: number, d: string) {
     console.log("addProject");
 
-    const newProject = {
+    const newProject: ProjectType = {
       id: Math.random().toString(),
       title: t,
       people: p,
-      desc: d
+      desc: d,
+      status: Status.Active
     };
     this.projects.push(newProject);
     list.renderProjects();
@@ -67,23 +128,10 @@ class ProjectClass {
 
 const project = ProjectClass.createInstance();
 
-class ListClass {
-  templateElem: HTMLTemplateElement;
-  hostElem: HTMLDivElement;
-  element: HTMLElement;
-  //   assingedProjects: any[] = [];
-
+class ListClass extends BaseClass<HTMLDivElement, HTMLElement> {
   constructor(public type: "active" | "finished") {
-    this.templateElem = document.getElementById(
-      "project-list"
-    )! as HTMLTemplateElement;
-    this.hostElem = document.getElementById("app")! as HTMLDivElement;
+    super("project-list", "app", `${type}-projects`, false);
 
-    const importedNode = document.importNode(this.templateElem.content, true);
-    this.element = importedNode.firstElementChild as HTMLElement;
-    this.element.id = `${this.type}-projects`;
-
-    this.attach();
     this.renderContent();
   }
 
@@ -93,6 +141,7 @@ class ListClass {
     const listEl = document.getElementById(
       `${this.type}-projects-list`
     )! as HTMLUListElement;
+    listEl.textContent = "";
     const projects = project.getProjects();
     for (const project of projects) {
       const listItem = document.createElement("li")!;
@@ -104,46 +153,37 @@ class ListClass {
     }
   }
 
-  private renderContent() {
+  renderContent() {
     const listId = `${this.type}-projects-list`;
     this.element.querySelector("ul")!.id = listId;
     this.element.querySelector("h2")!.textContent = this.type.toUpperCase();
-    // this.element.querySelector("h3")!.textContent = this.type.toUpperCase();
-    // this.element.querySelector("p")!.textContent = this.type.toUpperCase();
   }
-
-  private attach() {
-    this.hostElem.insertAdjacentElement("beforeend", this.element);
-  }
+  configure() {}
 }
 
 const list = new ListClass("active");
 const list1 = new ListClass("finished");
 
-class InputClass {
-  templateElem: HTMLTemplateElement;
-  hostElem: HTMLDivElement;
-  element: HTMLFormElement;
+//--------------
+class InputClass extends BaseClass<HTMLDivElement, HTMLFormElement> {
   title: HTMLInputElement;
   people: HTMLInputElement;
   desc: HTMLInputElement;
 
   constructor() {
-    this.templateElem = document.getElementById(
-      "project-input"
-    )! as HTMLTemplateElement;
-    this.hostElem = document.getElementById("app")! as HTMLDivElement;
-
-    const importedNode = document.importNode(this.templateElem.content, true);
-    this.element = importedNode.firstElementChild as HTMLFormElement;
-    this.element.id = "user-input";
-    this.attach();
+    super("project-input", "app", "user-input", true);
     this.configure();
 
     this.title = this.element.querySelector("#title") as HTMLInputElement;
     this.people = this.element.querySelector("#people") as HTMLInputElement;
     this.desc = this.element.querySelector("#description") as HTMLInputElement;
   }
+
+  configure() {
+    this.element.addEventListener("submit", this.submitHandler.bind(this));
+  }
+
+  renderContent() {}
 
   private clearInputs() {
     this.title.value = "";
@@ -179,18 +219,11 @@ class InputClass {
     // Without this if check we get the following error:
     // Type 'void | [string, number, string]' must have a '[Symbol.iterator]()' method that returns an iterator.
     if (Array.isArray(userInput)) {
-      const [title, desc, people] = userInput;
+      const [title, people, desc] = userInput;
       project.addProject(title, people, desc);
       console.log(title, people, desc);
     }
     this.clearInputs();
-  }
-
-  private configure() {
-    this.element.addEventListener("submit", this.submitHandler.bind(this));
-  }
-  private attach() {
-    this.hostElem.insertAdjacentElement("afterbegin", this.element);
   }
 }
 
